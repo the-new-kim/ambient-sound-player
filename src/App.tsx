@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { ChannelsState } from "./atoms";
 import Channel from "./components/Channel";
+import Test from "./components/Test";
 
 function App() {
   const channels = useRecoilValue(ChannelsState);
@@ -12,6 +13,8 @@ function App() {
           <Channel key={"channel" + index} {...channel} />
         ))}
       </div>
+
+      {/* <Test /> */}
     </section>
   );
 }
