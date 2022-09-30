@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ambient-sound-player/static/css/main.611cf12b.css",
-    "main.js": "/ambient-sound-player/static/js/main.fd8b45ec.js",
+    "main.css": "/ambient-sound-player/static/css/main.3aa00cbf.css",
+    "main.js": "/ambient-sound-player/static/js/main.8026f936.js",
     "static/media/Neonderthaw-Regular.woff": "/ambient-sound-player/static/media/Neonderthaw-Regular.316eb0c1f54e09e6518e.woff",
     "static/media/Neonderthaw-Regular.woff2": "/ambient-sound-player/static/media/Neonderthaw-Regular.eef60bb633015bf02d13.woff2",
     "index.html": "/ambient-sound-player/index.html",
-    "main.611cf12b.css.map": "/ambient-sound-player/static/css/main.611cf12b.css.map",
-    "main.fd8b45ec.js.map": "/ambient-sound-player/static/js/main.fd8b45ec.js.map"
+    "main.3aa00cbf.css.map": "/ambient-sound-player/static/css/main.3aa00cbf.css.map",
+    "main.8026f936.js.map": "/ambient-sound-player/static/js/main.8026f936.js.map"
   },
   "entrypoints": [
-    "static/css/main.611cf12b.css",
-    "static/js/main.fd8b45ec.js"
+    "static/css/main.3aa00cbf.css",
+    "static/js/main.8026f936.js"
   ]
 }
