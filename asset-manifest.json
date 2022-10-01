@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ambient-sound-player/static/css/main.3aa00cbf.css",
-    "main.js": "/ambient-sound-player/static/js/main.3fd0c2f9.js",
+    "main.css": "/ambient-sound-player/static/css/main.8fc73d0d.css",
+    "main.js": "/ambient-sound-player/static/js/main.6958b199.js",
     "static/media/mixkit-long-rain-ambience-1247.mp3": "/ambient-sound-player/static/media/mixkit-long-rain-ambience-1247.48cc532d5e5f028226bc.mp3",
     "static/media/mixkit-forest-birds-ambience-1210.mp3": "/ambient-sound-player/static/media/mixkit-forest-birds-ambience-1210.457058967d5f53d4886a.mp3",
     "static/media/mixkit-crickets-near-the-river-2459.mp3": "/ambient-sound-player/static/media/mixkit-crickets-near-the-river-2459.e3e09ce4185a1f3f4989.mp3",
@@ -13,15 +13,13 @@
     "static/media/mixkit-cinematic-ancient-drums-heartbeat-487.mp3": "/ambient-sound-player/static/media/mixkit-cinematic-ancient-drums-heartbeat-487.05eb1c6c4813a5515068.mp3",
     "static/media/mixkit-wild-light-wind-1733.mp3": "/ambient-sound-player/static/media/mixkit-wild-light-wind-1733.6d61978f670255d68592.mp3",
     "static/media/mixkit-slow-heartbeat-494.mp3": "/ambient-sound-player/static/media/mixkit-slow-heartbeat-494.0ea24873516e70d281ad.mp3",
-    "static/media/Neonderthaw-Regular.woff": "/ambient-sound-player/static/media/Neonderthaw-Regular.316eb0c1f54e09e6518e.woff",
     "static/media/mixkit-airport-radar-ping-1582.mp3": "/ambient-sound-player/static/media/mixkit-airport-radar-ping-1582.7a3a3aeb0487d41641fe.mp3",
-    "static/media/Neonderthaw-Regular.woff2": "/ambient-sound-player/static/media/Neonderthaw-Regular.eef60bb633015bf02d13.woff2",
     "index.html": "/ambient-sound-player/index.html",
-    "main.3aa00cbf.css.map": "/ambient-sound-player/static/css/main.3aa00cbf.css.map",
-    "main.3fd0c2f9.js.map": "/ambient-sound-player/static/js/main.3fd0c2f9.js.map"
+    "main.8fc73d0d.css.map": "/ambient-sound-player/static/css/main.8fc73d0d.css.map",
+    "main.6958b199.js.map": "/ambient-sound-player/static/js/main.6958b199.js.map"
   },
   "entrypoints": [
-    "static/css/main.3aa00cbf.css",
-    "static/js/main.3fd0c2f9.js"
+    "static/css/main.8fc73d0d.css",
+    "static/js/main.6958b199.js"
   ]
 }
