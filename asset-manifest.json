@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ambient-sound-player/static/css/main.8fc73d0d.css",
-    "main.js": "/ambient-sound-player/static/js/main.71e3f5a4.js",
+    "main.css": "/ambient-sound-player/static/css/main.76df95b2.css",
+    "main.js": "/ambient-sound-player/static/js/main.6a455508.js",
     "static/media/mixkit-long-rain-ambience-1247.mp3": "/ambient-sound-player/static/media/mixkit-long-rain-ambience-1247.48cc532d5e5f028226bc.mp3",
     "static/media/mixkit-forest-birds-ambience-1210.mp3": "/ambient-sound-player/static/media/mixkit-forest-birds-ambience-1210.457058967d5f53d4886a.mp3",
     "static/media/mixkit-crickets-near-the-river-2459.mp3": "/ambient-sound-player/static/media/mixkit-crickets-near-the-river-2459.e3e09ce4185a1f3f4989.mp3",
@@ -15,11 +15,11 @@
     "static/media/mixkit-slow-heartbeat-494.mp3": "/ambient-sound-player/static/media/mixkit-slow-heartbeat-494.0ea24873516e70d281ad.mp3",
     "static/media/mixkit-airport-radar-ping-1582.mp3": "/ambient-sound-player/static/media/mixkit-airport-radar-ping-1582.7a3a3aeb0487d41641fe.mp3",
     "index.html": "/ambient-sound-player/index.html",
-    "main.8fc73d0d.css.map": "/ambient-sound-player/static/css/main.8fc73d0d.css.map",
-    "main.71e3f5a4.js.map": "/ambient-sound-player/static/js/main.71e3f5a4.js.map"
+    "main.76df95b2.css.map": "/ambient-sound-player/static/css/main.76df95b2.css.map",
+    "main.6a455508.js.map": "/ambient-sound-player/static/js/main.6a455508.js.map"
   },
   "entrypoints": [
-    "static/css/main.8fc73d0d.css",
-    "static/js/main.71e3f5a4.js"
+    "static/css/main.76df95b2.css",
+    "static/js/main.6a455508.js"
   ]
 }
