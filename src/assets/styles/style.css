@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Neonderthaw&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @font-face {
+  font-family: "Neonderthaw";
+  src: url("../public/fonts/Neonderthaw-Regular.woff2") format("woff2"),
+    url("../public/fonts/Neonderthaw-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} */
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply font-['Neonderthaw'] text-white bg-slate-700 text-5xl sm:text-6xl md:text-7xl lg:text-8xl;
+  }
+  section {
+    @apply min-h-screen w-full flex justify-center items-center;
+  }
+  h1 {
+    @apply text-6xl sm:text-7xl md:text-8xl lg:text-9xl;
+  }
+}

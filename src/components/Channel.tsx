@@ -1,7 +1,19 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { IChannel } from "../atoms";
+import { useSetRecoilState } from "recoil";
+import { IChannel, PlayerState } from "../atoms";
 
-function Channel({ title, audioSrc, defaultVolume, defaultPlaying }: IChannel) {
+interface IChannelProps extends IChannel {
+  index: number;
+}
+
+function Channel({
+  title,
+  audioSrc,
+  defaultVolume,
+  defaultPlaying,
+  index,
+}: IChannelProps) {
+  const setPlayer = useSetRecoilState(PlayerState);
   const audioRef = useRef<HTMLAudioElement>(new Audio(audioSrc));
   const { current: audio } = audioRef;
 
@@ -16,6 +28,14 @@ function Channel({ title, audioSrc, defaultVolume, defaultPlaying }: IChannel) {
       audio.loop = true;
       audio.crossOrigin = "anonymous";
       setDuration(Math.floor(audio.duration));
+      //📝 On Safari canplay event is not fired....
+      setPlayer((oldState) => {
+        let channels = [...oldState.channels];
+        const channel = { ...channels[index], isLoading: false };
+        channels[index] = channel;
+        const newState = { ...oldState, channels };
+        return newState;
+      });
     };
 
     const handleEnded = () => {
@@ -27,15 +47,30 @@ function Channel({ title, audioSrc, defaultVolume, defaultPlaying }: IChannel) {
       setCurrentTime(Math.floor(audio.currentTime));
     };
 
+    // const handleCanPlayThrough = () => {
+    //   console.log(index + "through!!!");
+
+    //   setPlayer((oldState) => {
+    //     let channels = [...oldState.channels];
+    //     const channel = { ...channels[index], isLoading: false };
+    //     channels[index] = channel;
+    //     const newState = { ...oldState, channels };
+    //     return newState;
+    //   });
+    // };
+
     audio.addEventListener("loadedmetadata", handleLoadedMetadata);
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("timeupdate", handleTimeupdate);
+    // audio.addEventListener("canplaythrough", handleCanPlayThrough);
+
     return () => {
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("timeupdate", handleTimeupdate);
+      // audio.removeEventListener("canplaythrough", handleCanPlayThrough);
     };
-  }, [audio]);
+  }, [audio, index, setPlayer]);
 
   useEffect(() => {
     audio.volume = volume;
@@ -132,6 +167,7 @@ function Channel({ title, audioSrc, defaultVolume, defaultPlaying }: IChannel) {
         step="0.1"
         value={playbackRate}
       />
+      <div>{index}</div>
     </div>
   );
 }

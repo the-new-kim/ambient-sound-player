@@ -1,21 +1,54 @@
-import { useRecoilValue } from "recoil";
-import { ChannelsState } from "./atoms";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { IPlayerState, PlayerState } from "./atoms";
 import Channel from "./components/Channel";
-import Test from "./components/Test";
+
+import Intro from "./components/Intro";
+
+// const headerVariants: Variants = {
+//   top: {
+//     filter: "blur(0px)",
+//   },
+//   scrolled: {
+//     filter: "blur(10px)",
+//   },
+// };
 
 function App() {
-  const channels = useRecoilValue(ChannelsState);
-  return (
-    <section>
-      <div className="text-center text-8xl pt-6 mb-6">Ambient Sound Player</div>
-      <div className="max-w-screen-lg m-auto grid grid-cols-3 gap-6 p-10 text-5xl">
-        {channels.map((channel, index) => (
-          <Channel key={"channel" + index} {...channel} />
-        ))}
-      </div>
+  const [player, setPlayer] = useRecoilState(PlayerState);
+  const [isDataLoading, setIsDataLoading] = useState(true);
+  const [isScrollable, setIsScrollable] = useState(false);
 
-      {/* <Test /> */}
-    </section>
+  useEffect(() => {
+    const loadedChannels = player.channels.filter(
+      (channel) => !channel.isLoading
+    );
+
+    if (loadedChannels.length !== player.channels.length) return;
+
+    setIsDataLoading(false);
+  }, [player]);
+
+  useEffect(() => {
+    if (isDataLoading) return;
+
+    setPlayer((oldState) => {
+      const newState: IPlayerState = { ...oldState, isDataLoading };
+      return newState;
+    });
+  }, [isDataLoading, setPlayer]);
+
+  return (
+    <div
+      className={`flex flex-col ${!isScrollable && "h-screen overflow-hidden"}`}
+    >
+      <Intro isDataLoading={isDataLoading} setIsScrollable={setIsScrollable} />
+      {player.channels.map((channel, index) => (
+        <section id={index + ""} className="z-50" key={"channel" + index}>
+          <Channel {...channel} index={index} />
+        </section>
+      ))}
+    </div>
   );
 }
 
