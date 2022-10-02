@@ -21,7 +21,7 @@
     @apply font-['Neonderthaw'] text-white bg-slate-700 text-5xl sm:text-6xl md:text-7xl lg:text-8xl;
   }
   section {
-    @apply min-h-screen w-full flex justify-center items-center;
+    @apply min-h-screen w-full flex justify-center items-center overflow-x-hidden;
   }
   h1 {
     @apply text-6xl sm:text-7xl md:text-8xl lg:text-9xl;

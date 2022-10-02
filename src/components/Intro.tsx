@@ -127,7 +127,10 @@ function Intro({ isDataLoading }: IIntoProps) {
       </motion.h1>
       <div className="relative">
         {"Loading...".split("").map((letter, index) => (
-          <span className="relative text-[rgba(0,0,0,0)]">
+          <span
+            className="relative text-[rgba(0,0,0,0)]"
+            key={"loading" + index}
+          >
             {/* off */}
             <span
               className="absolute top-0 bottom-0 left-0 right-0 m-auto"

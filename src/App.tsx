@@ -10,16 +10,22 @@ function App() {
   const [isDataLoading, setIsDataLoading] = useState(true);
 
   useEffect(() => {
+    if (!isDataLoading) return;
+
+    console.log("loading...");
+
     const loadedChannels = player.channels.filter(
       (channel) => !channel.isLoading
     );
 
     if (loadedChannels.length !== player.channels.length) return;
 
+    console.log("loaded!");
+
     setTimeout(() => {
       setIsDataLoading(false);
     }, 3000);
-  }, [player]);
+  }, [player, isDataLoading]);
 
   useEffect(() => {
     if (isDataLoading) return;

@@ -17,17 +17,17 @@ function Channel({
   const audioRef = useRef<HTMLAudioElement>(new Audio(audioSrc));
   const { current: audio } = audioRef;
 
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
+  // const [duration, setDuration] = useState(0);
+  // const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(defaultVolume);
   const [isPlaying, setIsPlaying] = useState(defaultPlaying);
-  const [playbackRate, setPlaybackRate] = useState(1);
+  // const [playbackRate, setPlaybackRate] = useState(1);
 
   useEffect(() => {
     const handleLoadedMetadata = () => {
       audio.loop = true;
       audio.crossOrigin = "anonymous";
-      setDuration(Math.floor(audio.duration));
+      // setDuration(Math.floor(audio.duration));
       //📝 On Safari canplay event is not fired....
       setPlayer((oldState) => {
         let channels = [...oldState.channels];
@@ -38,14 +38,14 @@ function Channel({
       });
     };
 
-    const handleEnded = () => {
-      console.log("ended");
-      setIsPlaying(false);
-    };
+    // const handleEnded = () => {
+    //   console.log("ended");
+    //   setIsPlaying(false);
+    // };
 
-    const handleTimeupdate = () => {
-      setCurrentTime(Math.floor(audio.currentTime));
-    };
+    // const handleTimeupdate = () => {
+    //   setCurrentTime(Math.floor(audio.currentTime));
+    // };
 
     // const handleCanPlayThrough = () => {
     //   console.log(index + "through!!!");
@@ -60,14 +60,14 @@ function Channel({
     // };
 
     audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("timeupdate", handleTimeupdate);
+    // audio.addEventListener("ended", handleEnded);
+    // audio.addEventListener("timeupdate", handleTimeupdate);
     // audio.addEventListener("canplaythrough", handleCanPlayThrough);
 
     return () => {
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("timeupdate", handleTimeupdate);
+      // audio.removeEventListener("ended", handleEnded);
+      // audio.removeEventListener("timeupdate", handleTimeupdate);
       // audio.removeEventListener("canplaythrough", handleCanPlayThrough);
     };
   }, [audio, index, setPlayer]);
@@ -80,9 +80,9 @@ function Channel({
     isPlaying ? audio.play() : audio.pause();
   }, [audio, isPlaying]);
 
-  useEffect(() => {
-    audio.playbackRate = playbackRate;
-  }, [audio, playbackRate]);
+  // useEffect(() => {
+  //   audio.playbackRate = playbackRate;
+  // }, [audio, playbackRate]);
 
   const togglePlayPause = () => {
     if (audio.paused) {
@@ -102,21 +102,21 @@ function Channel({
     +value === 0 ? setIsPlaying(false) : setIsPlaying(true);
   };
 
-  const onTimelineChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
-    audio.currentTime = +value;
-    setCurrentTime(+value);
-  };
+  // const onTimelineChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   audio.currentTime = +value;
+  //   setCurrentTime(+value);
+  // };
 
-  const onPlaybackRateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
+  // const onPlaybackRateChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
 
-    setPlaybackRate(+value);
-  };
+  //   setPlaybackRate(+value);
+  // };
 
   return (
     <div className="w-full h-full flex justify-center flex-col items-center [&>*]:mb-9 [&>*]:cursor-pointer">
