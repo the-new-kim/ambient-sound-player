@@ -26,7 +26,6 @@ export interface IPlayerState {
   isDataLoading: boolean;
 }
 
-//====> defaultChannels
 const defaultChannels: IChannel[] = [
   {
     title: "Rain",
@@ -136,11 +135,6 @@ const defaultPlayerState: IPlayerState = {
   channels: defaultChannels,
   isDataLoading: true,
 };
-
-// export const ChannelsState = atom<IChannel[]>({
-//   key: "channels",
-//   default: defaultChannelsState,
-// });
 
 export const PlayerState = atom<IPlayerState>({
   key: "player",

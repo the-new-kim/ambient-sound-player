@@ -1,5 +1,5 @@
 import { motion, useAnimation, useScroll, Variants } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const scrollVariants: Variants = {
   top: {
@@ -42,6 +42,8 @@ interface IIntoProps {
 
 function Intro({ isDataLoading }: IIntoProps) {
   const { scrollY } = useScroll();
+  const [activateTopBtn, setActivateTopBtn] = useState(false);
+
   const scrollAnimation = useAnimation();
   const arrowAnimation = useAnimation();
   const loadingAnimation = useAnimation();
@@ -50,8 +52,10 @@ function Intro({ isDataLoading }: IIntoProps) {
     scrollY.onChange(() => {
       if (scrollY.get() > 200) {
         scrollAnimation.start("scrolled");
+        setActivateTopBtn(true);
       } else {
         scrollAnimation.start("top");
+        setActivateTopBtn(false);
       }
     });
   }, [scrollY, scrollAnimation]);
@@ -66,178 +70,241 @@ function Intro({ isDataLoading }: IIntoProps) {
   }, [isDataLoading, arrowAnimation, loadingAnimation]);
 
   return (
-    <motion.section
-      variants={scrollVariants}
-      animate={scrollAnimation}
-      initial="top"
-      className="sticky top-0 select-none shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]
-      flex flex-col justify-center items-center 
-      "
-    >
-      <motion.h1
-        initial="initial"
-        animate="animate"
-        className="text-center mb-10 p-20"
-        style={{
-          borderRadius: "50%",
-          boxShadow: !isDataLoading
-            ? `0 0 5px rgba(242,242,242,0.8), 
+    <>
+      <motion.section
+        variants={scrollVariants}
+        animate={scrollAnimation}
+        initial="top"
+        className="sticky top-0 select-none shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]
+      flex flex-col justify-center items-center"
+      >
+        {/* 🚩 Intro Main 🚩*/}
+        <motion.h1
+          initial="initial"
+          animate="animate"
+          className="text-center mb-10 p-20"
+          style={{
+            borderRadius: "50%",
+            boxShadow: !isDataLoading
+              ? `0 0 5px rgba(242,242,242,0.8), 
              0 0 20px rgba(242,242,242,0.6),
              inset 0 0 5px rgba(242,242,242,0.8), 
              inset 0 0 20px rgba(242,242,242,0.6), 
              3px 3px 4px rgba(0,0,0,0.8)`
-            : `0 0 5px rgba(0,0,0,0.2), 
+              : `0 0 5px rgba(0,0,0,0.2), 
             0 0 20px rgba(0,0,0,0.2),
             inset 0 0 5px rgba(0,0,0,0.2), 
             inset 0 0 20px rgba(0,0,0,0.2), 
             3px 3px 4px rgba(0,0,0,0.2)`,
-          borderWidth: "3px",
-          borderStyle: "solid",
-          borderColor: !isDataLoading
-            ? "rgba(242,242,242,1)"
-            : "rgba(122,122,122,1)",
-          transition: `box-shadow ease-out 300ms 1000ms, border-color ease-out 300ms 1000ms`,
-        }}
-      >
-        {"Ambient Sound Player".split("").map((letter, index) =>
-          letter !== " " ? (
-            <motion.span
-              style={{
-                color: !isDataLoading
-                  ? "rgba(242,242,242,1)"
-                  : "rgba(122,122,122,1)",
-                textShadow: !isDataLoading
-                  ? `0 0 3px rgba(242,242,242,0.8),
+            borderWidth: "3px",
+            borderStyle: "solid",
+            borderColor: !isDataLoading
+              ? "rgba(242,242,242,1)"
+              : "rgba(122,122,122,1)",
+            transition: `box-shadow ease-out 300ms 1000ms, border-color ease-out 300ms 1000ms`,
+          }}
+        >
+          {"Ambient Sound Player".split("").map((letter, index) =>
+            letter !== " " ? (
+              <motion.span
+                style={{
+                  color: !isDataLoading
+                    ? "rgba(242,242,242,1)"
+                    : "rgba(122,122,122,1)",
+                  textShadow: !isDataLoading
+                    ? `0 0 3px rgba(242,242,242,0.8),
                      0 0 5px rgba(242,242,242,0.7), 
                      0 0 20px rgba(242,242,242,0.6), 
                      0 0 30px rgba(242,242,242,0.5),
                      3px 3px 4px rgba(0,0,0,0.8)`
-                  : `3px 3px 4px rgba(0,0,0,0.8)`,
-                transition: `text-shadow ease-out 300ms ${30 * index}ms, 
+                    : `3px 3px 4px rgba(0,0,0,0.8)`,
+                  transition: `text-shadow ease-out 300ms ${30 * index}ms, 
                 color ease-out 300ms ${30 * index}ms`,
-              }}
-              key={"siteTitle" + index}
-            >
-              {letter}
-            </motion.span>
-          ) : (
-            <br key={"siteTitme" + index} />
-          )
-        )}
-      </motion.h1>
-      <div className="relative">
-        {"Loading...".split("").map((letter, index) => (
-          <span
-            className="relative text-[rgba(0,0,0,0)]"
-            key={"loading" + index}
-          >
-            {/* off */}
+                }}
+                key={"siteTitle" + index}
+              >
+                {letter}
+              </motion.span>
+            ) : (
+              <br key={"siteTitme" + index} />
+            )
+          )}
+        </motion.h1>
+        <div className="relative">
+          {"Loading...".split("").map((letter, index) => (
             <span
-              className="absolute top-0 bottom-0 left-0 right-0 m-auto"
-              style={{
-                color: "rgba(122,122,122,1)",
-                textShadow: "3px 3px 4px rgba(0,0,0,0.8)",
-              }}
+              className="relative text-[rgba(0,0,0,0)]"
+              key={"loading" + index}
             >
+              {/* off */}
+              <span
+                className="absolute top-0 bottom-0 left-0 right-0 m-auto"
+                style={{
+                  color: "rgba(122,122,122,1)",
+                  textShadow: "3px 3px 4px rgba(0,0,0,0.8)",
+                }}
+              >
+                {letter}
+              </span>
+
+              {/* on */}
+              <motion.span
+                variants={loadingAndArrowVariants}
+                initial="initial"
+                animate={loadingAnimation}
+                custom={index}
+                style={{
+                  opacity: isDataLoading ? 1 : 0,
+                  color: "rgba(242,242,242,1)",
+                  textShadow: `0 0 3px rgba(242,242,242,0.8),
+                  0 0 5px rgba(242,242,242,0.7), 
+                  0 0 20px rgba(242,242,242,0.6), 
+                  0 0 30px rgba(242,242,242,0.5),
+                  3px 3px 4px rgba(0,0,0,0.8)`,
+                }}
+                className="absolute top-0 bottom-0 left-0 right-0 m-auto"
+              >
+                {letter}
+              </motion.span>
+
               {letter}
             </span>
+          ))}
+          <a
+            href="#0"
+            className={`absolute top-0 left-0 right-0 m-auto w-10 ${
+              isDataLoading && "pointer-events-none"
+            }`}
+          >
+            {/* off */}
+            <motion.span
+              style={{
+                color: "rgba(122,122,122,1)",
+                textShadow: "-3px -3px 4px rgba(0,0,0,0.8)",
+              }}
+              className="absolute top-0 rotate-180"
+            >
+              ^
+            </motion.span>
+            <motion.span
+              style={{
+                color: "rgba(122,122,122,1)",
+                textShadow: "-3px -3px 4px rgba(0,0,0,0.8)",
+              }}
+              className="absolute -top-3 sm:-top-4 md:-top-5 lg:-top-6 rotate-180"
+            >
+              ^
+            </motion.span>
 
             {/* on */}
             <motion.span
               variants={loadingAndArrowVariants}
               initial="initial"
-              animate={loadingAnimation}
-              custom={index}
+              animate={arrowAnimation}
+              custom={1}
               style={{
-                opacity: isDataLoading ? 1 : 0,
+                opacity: !isDataLoading ? 1 : 0,
                 color: "rgba(242,242,242,1)",
                 textShadow: `0 0 3px rgba(242,242,242,0.8),
                   0 0 5px rgba(242,242,242,0.7), 
                   0 0 20px rgba(242,242,242,0.6), 
                   0 0 30px rgba(242,242,242,0.5),
-                  3px 3px 4px rgba(0,0,0,0.8)`,
+                  -3px -3px 4px rgba(0,0,0,0.8)`,
               }}
-              className="absolute top-0 bottom-0 left-0 right-0 m-auto"
+              className="absolute top-0 rotate-180"
             >
-              {letter}
+              ^
             </motion.span>
+            <motion.span
+              variants={loadingAndArrowVariants}
+              initial="initial"
+              animate={arrowAnimation}
+              custom={2}
+              style={{
+                opacity: !isDataLoading ? 1 : 0,
+                color: "rgba(242,242,242,1)",
+                textShadow: `0 0 3px rgba(242,242,242,0.8),
+                  0 0 5px rgba(242,242,242,0.7), 
+                  0 0 20px rgba(242,242,242,0.6), 
+                  0 0 30px rgba(242,242,242,0.5),
+                  -3px -3px 4px rgba(0,0,0,0.8)`,
+              }}
+              className="absolute -top-3 sm:-top-4 md:-top-5 lg:-top-6 rotate-180"
+            >
+              ^
+            </motion.span>
+          </a>
+        </div>
 
-            {letter}
-          </span>
-        ))}
-        <a
-          href="#0"
-          className={`absolute top-0 left-0 right-0 m-auto w-10 ${
-            isDataLoading && "pointer-events-none"
-          }`}
+        {/* 🚩 Overlay 🚩*/}
+        <motion.div
+          variants={overlayVariants}
+          animate={scrollAnimation}
+          initial="top"
+          className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+        />
+      </motion.section>
+
+      {/* 🚩 Top Arrow 🚩 */}
+      <a
+        href="#"
+        className={`fixed bottom-12 sm:bottom-14 md:bottom-16 lg:bottom-20 right-2 md:right-5 lg:right-10 w-10 z-50
+        ${activateTopBtn ? "pointer-events-auto" : "pointer-events-none"}
+        `}
+      >
+        {/* off */}
+        <span
+          style={{
+            color: "rgba(122,122,122,1)",
+            textShadow: "3px 3px 4px rgba(0,0,0,0.8)",
+          }}
+          className="absolute top-0 "
         >
-          {/* off */}
-          <motion.span
-            style={{
-              color: "rgba(122,122,122,1)",
-              textShadow: "-3px -3px 4px rgba(0,0,0,0.8)",
-            }}
-            className="absolute top-0 rotate-180"
-          >
-            ^
-          </motion.span>
-          <motion.span
-            style={{
-              color: "rgba(122,122,122,1)",
-              textShadow: "-3px -3px 4px rgba(0,0,0,0.8)",
-            }}
-            className="absolute -top-3 sm:-top-4 md:-top-5 lg:-top-6 rotate-180"
-          >
-            ^
-          </motion.span>
+          ^
+        </span>
+        <span
+          style={{
+            color: "rgba(122,122,122,1)",
+            textShadow: "3px 3px 4px rgba(0,0,0,0.8)",
+          }}
+          className="absolute -top-3 sm:-top-4 md:-top-5 lg:-top-6 "
+        >
+          ^
+        </span>
 
-          {/* on */}
-          <motion.span
-            variants={loadingAndArrowVariants}
-            initial="initial"
-            animate={arrowAnimation}
-            custom={1}
-            style={{
-              opacity: !isDataLoading ? 1 : 0,
-              color: "rgba(242,242,242,1)",
-              textShadow: `0 0 3px rgba(242,242,242,0.8),
+        {/* on */}
+        <span
+          style={{
+            opacity: activateTopBtn ? 1 : 0,
+            color: "rgba(242,242,242,1)",
+            textShadow: `0 0 3px rgba(242,242,242,0.8),
                   0 0 5px rgba(242,242,242,0.7), 
                   0 0 20px rgba(242,242,242,0.6), 
                   0 0 30px rgba(242,242,242,0.5),
-                  -3px -3px 4px rgba(0,0,0,0.8)`,
-            }}
-            className="absolute top-0 rotate-180"
-          >
-            ^
-          </motion.span>
-          <motion.span
-            variants={loadingAndArrowVariants}
-            initial="initial"
-            animate={arrowAnimation}
-            custom={2}
-            style={{
-              opacity: !isDataLoading ? 1 : 0,
-              color: "rgba(242,242,242,1)",
-              textShadow: `0 0 3px rgba(242,242,242,0.8),
+                  3px 3px 4px rgba(0,0,0,0.8)`,
+            transition: "opacity 300ms ease-out",
+          }}
+          className="absolute top-0 "
+        >
+          ^
+        </span>
+        <span
+          style={{
+            opacity: activateTopBtn ? 1 : 0,
+            color: "rgba(242,242,242,1)",
+            textShadow: `0 0 3px rgba(242,242,242,0.8),
                   0 0 5px rgba(242,242,242,0.7), 
                   0 0 20px rgba(242,242,242,0.6), 
                   0 0 30px rgba(242,242,242,0.5),
-                  -3px -3px 4px rgba(0,0,0,0.8)`,
-            }}
-            className="absolute -top-3 sm:-top-4 md:-top-5 lg:-top-6 rotate-180"
-          >
-            ^
-          </motion.span>
-        </a>
-      </div>
-
-      <motion.div
-        variants={overlayVariants}
-        animate={scrollAnimation}
-        initial="top"
-        className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
-      />
-    </motion.section>
+                  3px 3px 4px rgba(0,0,0,0.8)`,
+            transition: "opacity 300ms ease-out",
+          }}
+          className="absolute -top-3 sm:-top-4 md:-top-5 lg:-top-6 "
+        >
+          ^
+        </span>
+      </a>
+    </>
   );
 }
 

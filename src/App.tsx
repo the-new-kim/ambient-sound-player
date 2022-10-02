@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { IPlayerState, PlayerState } from "./atoms";
-import Channel from "./components/Channel";
 
+import Channel from "./components/Channel";
 import Intro from "./components/Intro";
 
 function App() {
@@ -10,17 +10,14 @@ function App() {
   const [isDataLoading, setIsDataLoading] = useState(true);
 
   useEffect(() => {
+    console.log(player);
     if (!isDataLoading) return;
-
-    console.log("loading...");
 
     const loadedChannels = player.channels.filter(
       (channel) => !channel.isLoading
     );
 
     if (loadedChannels.length !== player.channels.length) return;
-
-    console.log("loaded!");
 
     setTimeout(() => {
       setIsDataLoading(false);
@@ -44,7 +41,7 @@ function App() {
       {player.channels.map((channel, index) => (
         <section
           id={index + ""}
-          className="z-50 min-h-fit py-10"
+          className="z-40 min-h-fit py-10"
           key={"channel" + index}
         >
           <Channel {...channel} index={index} />
