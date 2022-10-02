@@ -54,7 +54,7 @@ const defaultChannels: IChannel[] = [
   },
 
   {
-    title: "Sea",
+    title: "Sea Waves",
     audioSrc: seaSrc,
     defaultVolume: 0.5,
     defaultPlaying: false,
@@ -105,7 +105,7 @@ const defaultChannels: IChannel[] = [
     isLoading: true,
   },
   {
-    title: "Heart beat",
+    title: "Heartbeat",
     audioSrc: heartbeatSrc,
     defaultVolume: 0.5,
     defaultPlaying: false,
@@ -123,7 +123,7 @@ const defaultChannels: IChannel[] = [
   },
 
   {
-    title: "Radar ping",
+    title: "Radar Ping",
     audioSrc: radarPingSrc,
     defaultVolume: 0.5,
     defaultPlaying: false,

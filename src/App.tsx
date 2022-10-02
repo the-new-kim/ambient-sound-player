@@ -5,19 +5,9 @@ import Channel from "./components/Channel";
 
 import Intro from "./components/Intro";
 
-// const headerVariants: Variants = {
-//   top: {
-//     filter: "blur(0px)",
-//   },
-//   scrolled: {
-//     filter: "blur(10px)",
-//   },
-// };
-
 function App() {
   const [player, setPlayer] = useRecoilState(PlayerState);
   const [isDataLoading, setIsDataLoading] = useState(true);
-  const [isScrollable, setIsScrollable] = useState(false);
 
   useEffect(() => {
     const loadedChannels = player.channels.filter(
@@ -26,7 +16,9 @@ function App() {
 
     if (loadedChannels.length !== player.channels.length) return;
 
-    setIsDataLoading(false);
+    setTimeout(() => {
+      setIsDataLoading(false);
+    }, 3000);
   }, [player]);
 
   useEffect(() => {
@@ -40,11 +32,15 @@ function App() {
 
   return (
     <div
-      className={`flex flex-col ${!isScrollable && "h-screen overflow-hidden"}`}
+      className={`flex flex-col ${isDataLoading && "h-screen overflow-hidden"}`}
     >
-      <Intro isDataLoading={isDataLoading} setIsScrollable={setIsScrollable} />
+      <Intro isDataLoading={isDataLoading} />
       {player.channels.map((channel, index) => (
-        <section id={index + ""} className="z-50" key={"channel" + index}>
+        <section
+          id={index + ""}
+          className="z-50 min-h-fit py-10"
+          key={"channel" + index}
+        >
           <Channel {...channel} index={index} />
         </section>
       ))}

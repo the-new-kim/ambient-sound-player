@@ -125,15 +125,20 @@ function Channel({
           <span
             key={title + index}
             style={{
-              // color: isPlaying && volume ? "white" : "black",
+              color:
+                isPlaying && volume
+                  ? "rgba(242,242,242,1)"
+                  : "rgba(122,122,122,1)",
               textShadow:
                 isPlaying && volume
-                  ? ` 0 0 5px white,
-                    0 0 ${volume * 5}px white, 
-                    0 0 ${volume * 20}px white, 
-                    0 0 ${volume * 30}px white`
-                  : `1px 1px 2px black`,
-              transition: `text-shadow ease-out 300ms ${30 * index}ms`,
+                  ? `0 0 3px rgba(242,242,242,0.9),
+                    0 0 ${volume * 5}px rgba(242,242,242,0.8), 
+                    0 0 ${volume * 20}px rgba(242,242,242,0.7), 
+                    0 0 ${volume * 30}px rgba(242,242,242,0.6),
+                    3px 3px 4px rgba(0,0,0,0.8)`
+                  : `3px 3px 4px rgba(0,0,0,0.8)`,
+              transition: `text-shadow ease-out 300ms ${30 * index}ms,
+                            color ease-out 300ms ${30 * index}ms`,
             }}
           >
             {letter}
@@ -142,6 +147,19 @@ function Channel({
       </div>
 
       <input
+        className="hidden md:block"
+        style={{
+          // color: isPlaying && volume ? "white" : "black",
+          boxShadow:
+            isPlaying && volume
+              ? `0 0 3px rgba(242,242,242,0.8),
+              0 0 ${volume * 5}px rgba(242,242,242,0.7), 
+              0 0 ${volume * 20}px rgba(242,242,242,0.6), 
+              0 0 ${volume * 30}px rgba(242,242,242,0.5),
+              3px 3px 4px rgba(0,0,0,0.8)`
+              : `3px 3px 4px rgba(0,0,0,0.8)`,
+          transition: `box-shadow ease-out 300ms ${30 * index}ms`,
+        }}
         onChange={onVolumeChange}
         type="range"
         min="0"
@@ -150,7 +168,7 @@ function Channel({
         value={isPlaying ? volume : 0}
       />
 
-      <input
+      {/* <input
         onChange={onTimelineChange}
         type="range"
         min="0"
@@ -166,8 +184,7 @@ function Channel({
         max="1.5"
         step="0.1"
         value={playbackRate}
-      />
-      <div>{index}</div>
+      /> */}
     </div>
   );
 }

@@ -1,9 +1,7 @@
-import { useRecoilValue } from "recoil";
-import { PlayerState } from "../atoms";
 import { motion, useAnimation, useScroll, Variants } from "framer-motion";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
-const introVariants: Variants = {
+const scrollVariants: Variants = {
   top: {
     filter: "blur(0px)",
   },
@@ -21,19 +19,18 @@ const overlayVariants: Variants = {
   },
 };
 
-const arrowDownVariants: Variants = {
-  hidden: {
-    pathLength: 0,
+const loadingAndArrowVariants: Variants = {
+  initial: {
     opacity: 0,
   },
-  visible: (index) => {
-    const delay = 0.5 + index * 0.4;
+  animate: (index) => {
+    const delay = index % 2 === 0 ? 0 : 0.5;
     return {
-      pathLength: 1,
       opacity: 1,
       transition: {
-        pathLength: { delay, duration: 0.4 },
-        opacity: { delay, duration: 0.01 },
+        delay,
+        repeat: Infinity,
+        duration: 1,
       },
     };
   },
@@ -41,14 +38,13 @@ const arrowDownVariants: Variants = {
 
 interface IIntoProps {
   isDataLoading: boolean;
-  setIsScrollable: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Intro({ isDataLoading, setIsScrollable }: IIntoProps) {
-  const player = useRecoilValue(PlayerState);
+function Intro({ isDataLoading }: IIntoProps) {
   const { scrollY } = useScroll();
   const scrollAnimation = useAnimation();
   const arrowAnimation = useAnimation();
+  const loadingAnimation = useAnimation();
 
   useEffect(() => {
     scrollY.onChange(() => {
@@ -58,98 +54,185 @@ function Intro({ isDataLoading, setIsScrollable }: IIntoProps) {
         scrollAnimation.start("top");
       }
     });
-  }, [scrollY]);
+  }, [scrollY, scrollAnimation]);
 
   useEffect(() => {
-    if (isDataLoading) return;
-    arrowAnimation.start("visible");
-  }, [isDataLoading]);
+    if (isDataLoading) {
+      loadingAnimation.start("animate");
+    } else {
+      arrowAnimation.start("animate");
+      loadingAnimation.start("initial");
+    }
+  }, [isDataLoading, arrowAnimation, loadingAnimation]);
 
   return (
     <motion.section
-      variants={introVariants}
+      variants={scrollVariants}
       animate={scrollAnimation}
       initial="top"
       className="sticky top-0 select-none shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]
       flex flex-col justify-center items-center 
       "
     >
-      <h1 className="text-center mb-10">
+      <motion.h1
+        initial="initial"
+        animate="animate"
+        className="text-center mb-10 p-20"
+        style={{
+          borderRadius: "50%",
+          boxShadow: !isDataLoading
+            ? `0 0 5px rgba(242,242,242,0.8), 
+             0 0 20px rgba(242,242,242,0.6),
+             inset 0 0 5px rgba(242,242,242,0.8), 
+             inset 0 0 20px rgba(242,242,242,0.6), 
+             3px 3px 4px rgba(0,0,0,0.8)`
+            : `0 0 5px rgba(0,0,0,0.2), 
+            0 0 20px rgba(0,0,0,0.2),
+            inset 0 0 5px rgba(0,0,0,0.2), 
+            inset 0 0 20px rgba(0,0,0,0.2), 
+            3px 3px 4px rgba(0,0,0,0.2)`,
+          borderWidth: "3px",
+          borderStyle: "solid",
+          borderColor: !isDataLoading
+            ? "rgba(242,242,242,1)"
+            : "rgba(122,122,122,1)",
+          transition: `box-shadow ease-out 300ms 1000ms, border-color ease-out 300ms 1000ms`,
+        }}
+      >
         {"Ambient Sound Player".split("").map((letter, index) =>
           letter !== " " ? (
-            <span
+            <motion.span
               style={{
-                textShadow: !player.isDataLoading
-                  ? `0 0 3px white,
-                     0 0 5px white, 
-                     0 0 20px white, 
-                     0 0 30px white,
-                     5px 5px 5px black`
-                  : `1px 1px 2px black`,
-                transition: `text-shadow ease-out 300ms ${30 * index}ms`,
+                color: !isDataLoading
+                  ? "rgba(242,242,242,1)"
+                  : "rgba(122,122,122,1)",
+                textShadow: !isDataLoading
+                  ? `0 0 3px rgba(242,242,242,0.8),
+                     0 0 5px rgba(242,242,242,0.7), 
+                     0 0 20px rgba(242,242,242,0.6), 
+                     0 0 30px rgba(242,242,242,0.5),
+                     3px 3px 4px rgba(0,0,0,0.8)`
+                  : `3px 3px 4px rgba(0,0,0,0.8)`,
+                transition: `text-shadow ease-out 300ms ${30 * index}ms, 
+                color ease-out 300ms ${30 * index}ms`,
               }}
               key={"siteTitle" + index}
             >
               {letter}
-            </span>
+            </motion.span>
           ) : (
             <br key={"siteTitme" + index} />
           )
         )}
-      </h1>
+      </motion.h1>
+      <div className="relative">
+        {"Loading...".split("").map((letter, index) => (
+          <span className="relative text-[rgba(0,0,0,0)]">
+            {/* off */}
+            <span
+              className="absolute top-0 bottom-0 left-0 right-0 m-auto"
+              style={{
+                color: "rgba(122,122,122,1)",
+                textShadow: "3px 3px 4px rgba(0,0,0,0.8)",
+              }}
+            >
+              {letter}
+            </span>
 
-      <a href="#0" className="relative p-1 flex flex-col w-10 ">
-        <motion.svg
-          version="1.1"
-          id="Layer_1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 150 200"
-          width="150px"
-          initial="hidden"
-          animate="visible"
-          style={{ width: "100%", overflow: "visible" }}
+            {/* on */}
+            <motion.span
+              variants={loadingAndArrowVariants}
+              initial="initial"
+              animate={loadingAnimation}
+              custom={index}
+              style={{
+                opacity: isDataLoading ? 1 : 0,
+                color: "rgba(242,242,242,1)",
+                textShadow: `0 0 3px rgba(242,242,242,0.8),
+                  0 0 5px rgba(242,242,242,0.7), 
+                  0 0 20px rgba(242,242,242,0.6), 
+                  0 0 30px rgba(242,242,242,0.5),
+                  3px 3px 4px rgba(0,0,0,0.8)`,
+              }}
+              className="absolute top-0 bottom-0 left-0 right-0 m-auto"
+            >
+              {letter}
+            </motion.span>
+
+            {letter}
+          </span>
+        ))}
+        <a
+          href="#0"
+          className={`absolute top-0 left-0 right-0 m-auto w-10 ${
+            isDataLoading && "pointer-events-none"
+          }`}
         >
-          <motion.polyline
-            variants={arrowDownVariants}
+          {/* off */}
+          <motion.span
+            style={{
+              color: "rgba(122,122,122,1)",
+              textShadow: "-3px -3px 4px rgba(0,0,0,0.8)",
+            }}
+            className="absolute top-0 rotate-180"
+          >
+            ^
+          </motion.span>
+          <motion.span
+            style={{
+              color: "rgba(122,122,122,1)",
+              textShadow: "-3px -3px 4px rgba(0,0,0,0.8)",
+            }}
+            className="absolute -top-3 sm:-top-4 md:-top-5 lg:-top-6 rotate-180"
+          >
+            ^
+          </motion.span>
+
+          {/* on */}
+          <motion.span
+            variants={loadingAndArrowVariants}
+            initial="initial"
             animate={arrowAnimation}
-            initial="hidden"
             custom={1}
-            points="10,10 75,90 140,10"
-            stroke="white"
-            strokeWidth="10"
-            strokeLinejoin="round"
-            fill="none"
             style={{
-              filter:
-                "drop-shadow(0 0 5px white) drop-shadow(0 0 10px white) drop-shadow(0 0 20px white)",
+              opacity: !isDataLoading ? 1 : 0,
+              color: "rgba(242,242,242,1)",
+              textShadow: `0 0 3px rgba(242,242,242,0.8),
+                  0 0 5px rgba(242,242,242,0.7), 
+                  0 0 20px rgba(242,242,242,0.6), 
+                  0 0 30px rgba(242,242,242,0.5),
+                  -3px -3px 4px rgba(0,0,0,0.8)`,
             }}
-          />
-          <motion.polyline
-            onAnimationComplete={() => {
-              setIsScrollable(true);
-            }}
-            variants={arrowDownVariants}
+            className="absolute top-0 rotate-180"
+          >
+            ^
+          </motion.span>
+          <motion.span
+            variants={loadingAndArrowVariants}
+            initial="initial"
             animate={arrowAnimation}
-            initial="hidden"
             custom={2}
-            points="10,110 75,190 140,110"
-            stroke="white"
-            strokeWidth="10"
-            strokeLinejoin="round"
-            fill="none"
             style={{
-              filter:
-                "drop-shadow(0 0 5px white) drop-shadow(0 0 10px white) drop-shadow(0 0 20px white)",
+              opacity: !isDataLoading ? 1 : 0,
+              color: "rgba(242,242,242,1)",
+              textShadow: `0 0 3px rgba(242,242,242,0.8),
+                  0 0 5px rgba(242,242,242,0.7), 
+                  0 0 20px rgba(242,242,242,0.6), 
+                  0 0 30px rgba(242,242,242,0.5),
+                  -3px -3px 4px rgba(0,0,0,0.8)`,
             }}
-          />
-        </motion.svg>
-      </a>
+            className="absolute -top-3 sm:-top-4 md:-top-5 lg:-top-6 rotate-180"
+          >
+            ^
+          </motion.span>
+        </a>
+      </div>
 
       <motion.div
         variants={overlayVariants}
         animate={scrollAnimation}
         initial="top"
-        className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+        className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
       />
     </motion.section>
   );
