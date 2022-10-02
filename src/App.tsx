@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { IPlayerState, PlayerState } from "./atoms";
+import { Helmet } from "react-helmet";
 
 import Channel from "./components/Channel";
 import Intro from "./components/Intro";
@@ -34,20 +35,27 @@ function App() {
   }, [isDataLoading, setPlayer]);
 
   return (
-    <div
-      className={`flex flex-col ${isDataLoading && "h-screen overflow-hidden"}`}
-    >
-      <Intro isDataLoading={isDataLoading} />
-      {player.channels.map((channel, index) => (
-        <section
-          id={index + ""}
-          className="z-40 min-h-fit py-10"
-          key={"channel" + index}
-        >
-          <Channel {...channel} index={index} />
-        </section>
-      ))}
-    </div>
+    <>
+      <Helmet>
+        <title>Ambient Sound Player</title>
+      </Helmet>
+      <div
+        className={`flex flex-col ${
+          isDataLoading && "h-screen overflow-hidden"
+        }`}
+      >
+        <Intro isDataLoading={isDataLoading} />
+        {player.channels.map((channel, index) => (
+          <section
+            id={index + ""}
+            className="z-40 min-h-fit py-10"
+            key={"channel" + index}
+          >
+            <Channel {...channel} index={index} />
+          </section>
+        ))}
+      </div>
+    </>
   );
 }
 
